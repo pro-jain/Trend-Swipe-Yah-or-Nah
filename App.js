@@ -1,65 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { View, Image, StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
-
-import {
-  useSharedValue,
+import React from "react";
+import { View, Image, StyleSheet, useWindowDimensions } from "react-native";
+import Card from "./index.js";
+import trends from "./trends.js";
+import Animated, {
   useAnimatedStyle,
-  withSpring,
+  useSharedValue,
+  useDerivedValue,
+  interpolate,
+  useAnimatedGestureHandler,
 } from "react-native-reanimated";
 import {
   PanGestureHandler,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 
-// Assuming Card component and trends data are imported from separate files
-import Card from "./index.js";
-import trends from "./trends.js";
+const ROTATION = 60;
 
 const App = () => {
-  const [translationX, setTranslationX] = useState(0);
+  const { width: screenWidth } = useWindowDimensions();
+  const hiddenTranslateX = 2 * screenWidth;
+  const translateX = useSharedValue(0);
+  const rotate = useDerivedValue(
+    () =>
+      interpolate(translateX.value, [0, hiddenTranslateX], [0, ROTATION]) +
+      "deg"
+  );
   const cardStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: translationX, // Animate the card's horizontal translation
-      },
-    ],
+    transform: [{ translateX: translateX.value }, { rotate: rotate.value }],
   }));
 
-  const handleGestureEvent = (event) => {
-    setTranslationX(withSpring(event.nativeEvent.translationX / 500 + 0.5));
-  };
-
-  useEffect(() => {
-    const handleGestureEvent = (event) => {
-      setTranslationX(withSpring(event.nativeEvent.translationX / 500 + 0.5)); // Update translation with animated spring effect
-    };
-
-    return () => {
-          <View style={styles.pageBackground}>
-            <Image
-              source={require("./assets/bg.png")}
-              style={styles.backgroundImage}
-            />
-            <View style={styles.pageContainer}>
-              <Card trends={trends[0]} /> 
-            </View>
-          </View>;
-    };
-  }, []);
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, context) => {
+      context.startX = translateX.value;
+    },
+    onActive: (event, context) => {
+      translateX.value = context.startX + event.translationX;
+    },
+    onEnd: () => {
+      console.warn("Touch ended");
+    },
+  });
 
   return (
-    <GestureHandlerRootView style={styles.pageBackground}>
-      <Image
-        source={require("./assets/bg.png")}
-        style={styles.backgroundImage}
-      />
-      <View style={styles.pageContainer}>
-        <PanGestureHandler onGestureEvent={handleGestureEvent}>
-          <Animated.View style={[styles.animatedCard, cardStyle]}>
-            <Card trends={trends[2]} />
-          </Animated.View>
-        </PanGestureHandler>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.pageBackground}>
+        <Image
+          source={require("./assets/bg.png")}
+          style={styles.backgroundImage}
+        />
+        <View style={styles.pageContainer}>
+          <PanGestureHandler onGestureEvent={gestureHandler}>
+            <Animated.View style={[styles.animatedCard, cardStyle]}>
+              <Card trends={trends[2]} screenWidth={screenWidth} />
+            </Animated.View>
+          </PanGestureHandler>
+        </View>
       </View>
     </GestureHandlerRootView>
   );
@@ -69,7 +64,6 @@ const styles = StyleSheet.create({
   pageBackground: {
     width: "100%",
     height: "100%",
-    position: "cover",
     flex: 1,
   },
   backgroundImage: {
@@ -85,8 +79,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   animatedCard: {
-    width: 300,
-    height: 600,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
