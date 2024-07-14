@@ -99,6 +99,8 @@ const App = () => {
           source={require("./assets/bg.png")}
           style={styles.backgroundImage}
         />
+        <Image source={require("./assets/up.png")} style={styles.up} />
+        <Image source={require("./assets/down.png")} style={styles.down} />
         <View style={styles.pageContainer}>
           {nextProfile && (
             <View style={styles.nextCardContainer}>
@@ -148,6 +150,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+  },
+  up: {
+    width: "100%",
+    height: "27%",
+    position: "absolute",
+    top: "2%",
+    left: "0%",
+  },
+  down: {
+    width: "100%", 
+    height: "8%", 
+    position: "absolute",
+    bottom: "0%", 
+    left: "0%", 
   },
   animatedCard: {
     width: "90%",
