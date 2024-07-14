@@ -17,4 +17,16 @@ export default [
     image: require("./assets/card3.png"),
     bio: " 'Nish Hair ki Malkin' spotted wearing this corset!",
   },
+  {
+    id: "4",
+    name: "Sheer Mesh",
+    image: require("./assets/card4.png"),
+    bio: " The mesh trend is here to stay- its endless styling possibilities.",
+  },
+  {
+    id: "5",
+    name: "Beach Wear",
+    image: require("./assets/card5.png"),
+    bio: " Rock the summer with these beautiful beach wear!",
+  },
 ];
