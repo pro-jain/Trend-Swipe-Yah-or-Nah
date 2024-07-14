@@ -15,6 +15,8 @@ import {
   PanGestureHandler,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import yah from "./assets/yah.png";
+import nah from "./assets/nah.png";
 
 const ROTATION = 60;
 const SWIPE_VELOCITY = 800;
@@ -59,7 +61,12 @@ const App = () => {
       [1, 0.5, 1]
     ),
   }));
-
+  const yahStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(translateX.value, [0, hiddenTranslateX], [0, 5]),
+  }));
+  const nahStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(translateX.value, [0, -hiddenTranslateX], [0, 5]),
+  }));
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (_, context) => {
       context.startX = translateX.value;
@@ -96,7 +103,7 @@ const App = () => {
           {nextProfile && (
             <View style={styles.nextCardContainer}>
               <Animated.View style={[styles.card, nextCardStyle]}>
-                <Card trends={nextProfile} />
+                <Card trends={nextProfile} screenWidth={screenWidth} />
               </Animated.View>
             </View>
           )}
@@ -104,6 +111,16 @@ const App = () => {
             <PanGestureHandler onGestureEvent={gestureHandler}>
               <Animated.View style={[styles.animatedCard, cardStyle]}>
                 <Card trends={currentProfile} screenWidth={screenWidth} />
+                <Animated.Image
+                  source={yah}
+                  style={[styles.yah, { left: 10 }, yahStyle]}
+                  resizeMode="contain"
+                />
+                <Animated.Image
+                  source={nah}
+                  style={[styles.yah, { right: 10 }, nahStyle]}
+                  resizeMode="contain"
+                />
               </Animated.View>
             </PanGestureHandler>
           )}
@@ -133,17 +150,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   animatedCard: {
-    width: "100%",
+    width: "90%",
+    height: "70%",
     justifyContent: "center",
     alignItems: "center",
   },
   nextCardContainer: {
-    width: "95%",
-    height: "85%",
+    width: "90%",
+    height: "70%",
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
     paddingRight: 20,
+  },
+  yah: {
+    height: 100,
+    width: 100,
+    position: "absolute",
+    bottom: -26,
+    zIndex: 1,
+    elevation: 100,
   },
 });
 
