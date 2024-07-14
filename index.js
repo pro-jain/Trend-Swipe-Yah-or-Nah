@@ -17,8 +17,8 @@ const Card = (props) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: "85%",
-    height: "70%",
+    width: "100%",
+    height: "80%",
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6.68,
     elevation: 11,
     marginTop:120,
-    marginLeft:20,
+    paddingLeft:10,
   },
   image: {
     width: "100%",
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     color: "white",
     lineHeight: 15,
     paddingLeft: 22,
-    paddingBottom: 30,
+    paddingBottom: 50,
   },
 });
 export default Card;
