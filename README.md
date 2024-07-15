@@ -8,12 +8,13 @@ Trend Swipe: Yah or Nah is an interactive game that allows users to swipe throug
 
 ## Tech Stack
 
-- **React Native**: For building the mobile application.
-- **Node.js**: Backend server for handling requests and business logic.
-- **MongoDB**: Database for storing user data and trends.
-- **Beautiful Soup**: For web scraping fashion-related data.
-- **ML Analysis**: To predict fashion trends based on user interactions.
-- **News API**: To fetch the latest fashion news.
+- ![React Native](https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+- ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+- ![Beautiful Soup](https://img.shields.io/badge/Beautiful%20Soup-3776AB?style=for-the-badge&logo=python&logoColor=white)
+- ![Machine Learning](https://img.shields.io/badge/ML-FF6F00?style=for-the-badge&logo=python&logoColor=white)
+- ![News API](https://img.shields.io/badge/News%20API-000000?style=for-the-badge&logo=newsapi&logoColor=white)
+  
 
 ## Features
 
@@ -24,11 +25,11 @@ Trend Swipe: Yah or Nah is an interactive game that allows users to swipe throug
 
 ## Demo Video
 
-[//]: # ()
+[Check out the demo video](demo.mp4)
 
 ## DEVELOPERS
-**Anushka Ghushe**
-**Lamya Gandhi**
+**Anushka Ghushe** |
+**Lamya Gandhi** |
 **Misbah Shaikh**
 
 
