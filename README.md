@@ -57,6 +57,7 @@ Trend Swipe: Yah or Nah is an interactive game that allows users to swipe throug
     ```
 5. **Run the application**: 
     ```bash
+    npm install axios cheerio fs
     npm run dev
     ```
 
