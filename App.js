@@ -24,16 +24,18 @@ const SWIPE_VELOCITY = 800;
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(currentIndex + 1);
+  
+  // State variables to track yah and nah counts
+  const [yahCount, setYahCount] = useState(0);
+  const [nahCount, setNahCount] = useState(0);
 
   const currentProfile = trends[currentIndex];
   const nextProfile = trends[nextIndex];
 
   const { width: screenWidth } = useWindowDimensions();
-
   const hiddenTranslateX = 2 * screenWidth;
 
   const translateX = useSharedValue(0);
-
   const rotate = useDerivedValue(
     () =>
       interpolate(translateX.value, [0, hiddenTranslateX], [0, ROTATION]) +
@@ -44,7 +46,6 @@ const App = () => {
     transform: [{ translateX: translateX.value }, { rotate: rotate.value }],
   }));
 
-  //FOR BEHIND CARD TO HAVE ZOOM IN EFFECT
   const nextCardStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -61,12 +62,15 @@ const App = () => {
       [1, 0.5, 1]
     ),
   }));
+
   const yahStyle = useAnimatedStyle(() => ({
     opacity: interpolate(translateX.value, [0, hiddenTranslateX], [0, 5]),
   }));
+
   const nahStyle = useAnimatedStyle(() => ({
     opacity: interpolate(translateX.value, [0, -hiddenTranslateX], [0, 5]),
   }));
+
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (_, context) => {
       context.startX = translateX.value;
@@ -79,6 +83,13 @@ const App = () => {
         translateX.value = withSpring(0);
         return;
       }
+
+      if (event.velocityX > 0) {
+        runOnJS(setYahCount)(yahCount + 1);
+      } else {
+        runOnJS(setNahCount)(nahCount + 1);
+      }
+
       translateX.value = withSpring(
         hiddenTranslateX * Math.sign(event.velocityX),
         {},
@@ -126,6 +137,12 @@ const App = () => {
               </Animated.View>
             </PanGestureHandler>
           )}
+        </View>
+
+        {/* Display yah and nah counts */}
+        <View style={styles.counterContainer}>
+          <Text style={styles.counterText}>Yah: {yahCount}</Text>
+          <Text style={styles.counterText}>Nah: {nahCount}</Text>
         </View>
       </View>
     </GestureHandlerRootView>
@@ -186,6 +203,17 @@ const styles = StyleSheet.create({
     bottom: -26,
     zIndex: 1,
     elevation: 100,
+  },
+  counterContainer: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    flexDirection: "row",
+  },
+  counterText: {
+    color: "#fff",
+    fontSize: 18,
+    marginHorizontal: 10,
   },
 });
 
